@@ -1,3 +1,17 @@
 spring:
   application:
     name: sql-trainer
+  datasource:
+    url: jdbc:h2:mem:sqltrainer;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+server:
+  port: 8181
+
+vaadin:
+  launch-browser: true
+  devmode:
+    devTools:
+      enabled: false
