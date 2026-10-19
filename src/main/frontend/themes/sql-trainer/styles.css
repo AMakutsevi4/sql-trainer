@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
-
+/* Без Google Fonts — на работе CDN часто недоступен */
 html {
     --ink: #15202b;
     --ink-soft: #3d4f5f;
@@ -11,8 +10,8 @@ html {
     --accent-hover: #0d9488;
     --ok: #157a4c;
     --bad: #b42318;
-    --mono: 'IBM Plex Mono', ui-monospace, monospace;
-    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: Consolas, 'Courier New', ui-monospace, monospace;
+    --sans: 'Segoe UI', system-ui, sans-serif;
 
     --lumo-font-family: var(--sans);
     --lumo-base-color: var(--paper);
@@ -150,15 +149,6 @@ body {
 .sql-editor {
     width: 100%;
     margin-bottom: 0.35rem;
-}
-
-.sql-editor .CodeMirror {
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: var(--soft-box);
-    font-family: var(--mono);
-    font-size: 0.9rem;
-    height: 180px;
 }
 
 .trainer-actions {

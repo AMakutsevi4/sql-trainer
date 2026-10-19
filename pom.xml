@@ -96,7 +96,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Старые тесты с query() пока не гоняем. Зелёная сборка = SqlTaskSolutionTest. -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -140,6 +140,14 @@
 			<id>production</id>
 			<properties>
 				<vaadin.productionMode>true</vaadin.productionMode>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>offline</id>
+			<properties>
+				<vaadin.productionMode>true</vaadin.productionMode>
+				<vaadin.skip>true</vaadin.skip>
 			</properties>
 		</profile>
 	</profiles>

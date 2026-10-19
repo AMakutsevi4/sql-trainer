@@ -36,7 +36,7 @@ build/
 node_modules/
 src/main/frontend/generated/
 src/main/dev-bundle/
-src/main/bundles/
+# bundles/ оставляем в проекте — prod.bundle нужен офлайн на работе
 vite.generated.ts
 webpack.generated.js
 package-lock.json
