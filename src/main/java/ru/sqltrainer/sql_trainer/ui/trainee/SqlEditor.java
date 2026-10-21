@@ -19,18 +19,8 @@ public class SqlEditor extends Div {
         setWidthFull();
 
         textarea.setAttribute("spellcheck", "false");
-        textarea.getStyle()
-                .set("width", "100%")
-                .set("height", "180px")
-                .set("box-sizing", "border-box")
-                .set("resize", "vertical")
-                .set("font-family", "var(--mono)")
-                .set("font-size", "0.9rem")
-                .set("padding", "0.75rem")
-                .set("border", "1px solid var(--line)")
-                .set("border-radius", "10px")
-                .set("background", "var(--soft-box)")
-                .set("color", "var(--ink)");
+        textarea.setAttribute("wrap", "soft");
+        textarea.getClassList().add("sql-editor-input");
         textarea.setProperty("value", pendingValue);
 
         getElement().appendChild(textarea);
