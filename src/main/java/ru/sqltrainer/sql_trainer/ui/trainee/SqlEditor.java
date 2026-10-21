@@ -5,10 +5,6 @@ import com.vaadin.flow.dom.Element;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- * Простой SQL-редактор без CDN.
- * На работе сеть часто режет внешние скрипты — поэтому без CodeMirror.
- */
 public class SqlEditor extends Div {
 
     private final Element textarea = new Element("textarea");

@@ -3,7 +3,6 @@ package ru.sqltrainer.sql_trainer.tasks.select;
 import org.springframework.stereotype.Component;
 import ru.sqltrainer.sql_trainer.task.SqlTask;
 
-/** Пример задачи. Остальные делай так же: extends SqlTask + @Component. */
 @Component
 public class Select01AllColumnsAccounts extends SqlTask {
 

@@ -14,22 +14,25 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 import ru.sqltrainer.sql_trainer.engine.QueryTable;
-import ru.sqltrainer.sql_trainer.progress.TraineeProgress;
+import ru.sqltrainer.sql_trainer.progress.ProgressService;
 import ru.sqltrainer.sql_trainer.task.CheckResult;
 import ru.sqltrainer.sql_trainer.task.SqlTask;
 import ru.sqltrainer.sql_trainer.task.TaskCatalog;
 import ru.sqltrainer.sql_trainer.task.TaskCheckService;
+import ru.sqltrainer.sql_trainer.ui.MainLayout;
 
-import java.time.Duration;
 import java.util.List;
 
-@Route("")
+@Route(value = "", layout = MainLayout.class)
 @PageTitle("SQL Trainer")
+@PermitAll
 public class TrainerView extends VerticalLayout {
 
     private final TaskCatalog catalog;
     private final TaskCheckService checkService;
+    private final ProgressService progress;
 
     private final ComboBox<String> sectionBox = new ComboBox<>("Раздел");
     private final ComboBox<SqlTask> taskBox = new ComboBox<>("Задача");
@@ -44,9 +47,10 @@ public class TrainerView extends VerticalLayout {
     private final Button next = new Button("Вперед →");
     private boolean suppressTaskEvents;
 
-    public TrainerView(TaskCatalog catalog, TaskCheckService checkService) {
+    public TrainerView(TaskCatalog catalog, TaskCheckService checkService, ProgressService progress) {
         this.catalog = catalog;
         this.checkService = checkService;
+        this.progress = progress;
 
         addClassName("trainer");
         setPadding(false);
@@ -122,7 +126,7 @@ public class TrainerView extends VerticalLayout {
     }
 
     private String taskLabel(SqlTask task) {
-        String mark = TraineeProgress.current().isSolved(task.id()) ? "✓ " : "";
+        String mark = progress.isSolved(task.id()) ? "✓ " : "";
         return mark + task.title();
     }
 
@@ -151,7 +155,8 @@ public class TrainerView extends VerticalLayout {
             return;
         }
         List<SqlTask> tasks = catalog.bySection(section);
-        long solved = TraineeProgress.current().solvedIn(tasks.stream().map(SqlTask::id).toList());
+        List<String> ids = tasks.stream().map(SqlTask::id).toList();
+        long solved = progress.solvedCount(ids);
         progressLabel.setText("Прогресс раздела: " + solved + " / " + tasks.size());
 
         SqlTask selected = taskBox.getValue();
@@ -186,21 +191,9 @@ public class TrainerView extends VerticalLayout {
             taskMeta.setText("");
             return;
         }
-        TraineeProgress progress = TraineeProgress.current();
         String solved = progress.isSolved(task.id()) ? "решено" : "не решено";
         int attempts = progress.attempts(task.id());
-        String time = formatDuration(progress.timeSpent(task.id()));
-        taskMeta.setText("Статус: " + solved + " · Попытки: " + attempts + " · Время: " + time);
-    }
-
-    private static String formatDuration(Duration duration) {
-        long seconds = Math.max(0, duration.getSeconds());
-        long minutes = seconds / 60;
-        long rem = seconds % 60;
-        if (minutes == 0) {
-            return rem + " с";
-        }
-        return minutes + " мин " + rem + " с";
+        taskMeta.setText("Статус: " + solved + " · Попытки: " + attempts);
     }
 
     private static Div panel(String title, com.vaadin.flow.component.Component... parts) {
@@ -224,10 +217,10 @@ public class TrainerView extends VerticalLayout {
             updateNavEnabled();
             return;
         }
-        TraineeProgress.current().openTask(task.id());
         description.setText(task.description());
         schema.setText(task.schema().trim() + "\n\n" + task.data().trim());
-        editor.setValue(task.starter());
+        String sql = progress.lastSql(task.id()).orElse(task.starter());
+        editor.setValue(sql);
         resultBox.removeAll();
         setStatus("", "is-info");
         refreshTaskMeta(task);

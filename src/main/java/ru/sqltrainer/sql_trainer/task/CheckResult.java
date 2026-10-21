@@ -2,7 +2,6 @@ package ru.sqltrainer.sql_trainer.task;
 
 import ru.sqltrainer.sql_trainer.engine.QueryTable;
 
-/** Ответ проверки */
 public record CheckResult(
         boolean passed,
         QueryTable table,

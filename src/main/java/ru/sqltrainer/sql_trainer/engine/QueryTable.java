@@ -3,7 +3,6 @@ package ru.sqltrainer.sql_trainer.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Таблица результата запроса. */
 public record QueryTable(
         List<String> columns,
         List<List<String>> rows,
@@ -13,7 +12,6 @@ public record QueryTable(
         return new QueryTable(List.of(), List.of(), "");
     }
 
-    /** Разбор expected CSV в таблицу для UI. */
     public static QueryTable fromCsv(String csv) {
         String normalized = SqlQueryExecutor.normalize(csv);
         if (normalized.isEmpty()) {
@@ -39,7 +37,6 @@ public record QueryTable(
             }
             cells.add(part);
         }
-        // последняя пустая ячейка — отбросить
         if (!cells.isEmpty() && cells.getLast().isEmpty()) {
             cells.removeLast();
         }

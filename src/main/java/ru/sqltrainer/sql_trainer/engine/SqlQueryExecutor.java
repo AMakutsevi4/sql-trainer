@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/** SQL на H2 */
 public final class SqlQueryExecutor {
 
     private SqlQueryExecutor() {

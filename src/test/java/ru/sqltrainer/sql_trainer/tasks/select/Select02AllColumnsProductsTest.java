@@ -9,7 +9,7 @@ class Select02AllColumnsProductsTest {
 
     @Test
     void solutionMatchesExpected() throws Exception {
-        Select02AllColumnsProducts task = new Select02AllColumnsProducts();
+        Select03AllColumnsSubjects task = new Select03AllColumnsSubjects();
         assertTrue(SqlQueryExecutor.matches(
                 task.schema(),
                 task.data(),

@@ -5,7 +5,6 @@ import ru.sqltrainer.sql_trainer.engine.QueryTable;
 import ru.sqltrainer.sql_trainer.engine.SqlQueryExecutor;
 import ru.sqltrainer.sql_trainer.progress.AttemptRecorder;
 
-/** Проверяем SQL ученика */
 @Service
 public class TaskCheckService {
 
@@ -17,12 +16,10 @@ public class TaskCheckService {
         this.attemptRecorder = attemptRecorder;
     }
 
-    /** Выполнить запрос. */
     public CheckResult run(String taskId, String studentSql) {
         return execute(taskId, studentSql, false);
     }
 
-    /** Проверить и записать попытку. */
     public CheckResult check(String taskId, String studentSql) {
         return execute(taskId, studentSql, true);
     }

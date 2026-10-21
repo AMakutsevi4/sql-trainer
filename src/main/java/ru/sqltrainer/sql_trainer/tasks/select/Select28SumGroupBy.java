@@ -1,29 +1,92 @@
 package ru.sqltrainer.sql_trainer.tasks.select;
 
-/**
- * 7.10 Агрегатные функции. SUM + GROUP BY
- *
- * SELECT столбец_группировки, SUM(столбец) FROM таблица
- * GROUP BY столбец_группировки;
- *
- * Задача: сумма amount по каждой purpose,
- * отсортировать по purpose по убыванию.
- * В выборке только purpose и sum (alias AS sum).
- *
- * Схема:
- * CREATE TABLE transactions(
- *     id int not null primary key,
- *     purpose text,
- *     client_id int,
- *     amount int,
- *     payment_date timestamp
- * );
- */
-public class Select28SumGroupBy {
+import org.springframework.stereotype.Component;
+import ru.sqltrainer.sql_trainer.task.SqlTask;
 
-    public String query() {
+@Component
+public class Select28SumGroupBy extends SqlTask {
+
+    @Override
+    public String id() {
+        return "select-28";
+    }
+
+    @Override
+    public String section() {
+        return "SELECT";
+    }
+
+    @Override
+    public int order() {
+        return 28;
+    }
+
+    @Override
+    public String title() {
+        return "7.10 Агрегатные функции. SUM + GROUP BY";
+    }
+
+    @Override
+    public String description() {
         return """
-                SELECT
+                 SELECT столбец_группировки, SUM(столбец) FROM таблица
+                 GROUP BY столбец_группировки;
+                
+                 Задача: сумма amount по каждой purpose,
+                 отсортировать по purpose по убыванию.
+                 В выборке только purpose и sum (alias AS sum).
                 """;
+    }
+
+    @Override
+    public String schema() {
+        return """
+                CREATE TABLE transactions(
+                    id int not null primary key,
+                    purpose varchar(255),
+                    client_id int,
+                    amount int,
+                    payment_date timestamp
+                )
+                """;
+    }
+
+    @Override
+    public String data() {
+        return """
+                INSERT INTO transactions VALUES(1, 'Credit', 1, 120, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(2, 'Current payment', 2, 80, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(3, 'Service', 3, 190, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(4, 'Vacation', 4, 250, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(5, 'Credit', 1, 240, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(6, 'Current payment', 2, 100, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(7, 'Service', 3, 170, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(8, 'Vacation', 4, 190, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(9, 'Credit', 1, 180, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(10, 'Current payment', 2, 60, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(11, 'Service', 3, 150, '2022-06-01 12:00:00');
+                INSERT INTO transactions VALUES(12, 'Vacation', 4, 140, '2022-06-01 12:00:00')
+                """;
+    }
+
+    @Override
+    public String starter() {
+        return "SELECT";
+    }
+
+    @Override
+    public String expected() {
+        return """
+                purpose;sum;
+                Vacation;580;
+                Service;510;
+                Current payment;240;
+                Credit;540;
+                """;
+    }
+
+    @Override
+    public String solution() {
+        return "SELECT purpose, SUM(amount) AS sum FROM transactions GROUP BY purpose ORDER BY purpose DESC";
     }
 }
