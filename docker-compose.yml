@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sql-trainer-db
+    environment:
+      POSTGRES_DB: sqltrainer
+      POSTGRES_USER: sqltrainer
+      POSTGRES_PASSWORD: sqltrainer
+    ports:
+      - "5433:5432"
+    volumes:
+      - sqltrainer_pg:/var/lib/postgresql/data
+
+volumes:
+  sqltrainer_pg:
