@@ -13,7 +13,7 @@ public class Where11InGrades extends SqlTask {
 
     @Override
     public String section() {
-        return "WHERE";
+        return "2. WHERE";
     }
 
     @Override

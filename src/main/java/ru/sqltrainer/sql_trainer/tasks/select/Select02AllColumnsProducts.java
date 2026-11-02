@@ -13,7 +13,7 @@ public class Select02AllColumnsProducts extends SqlTask {
 
     @Override
     public String section() {
-        return "SELECT";
+        return "1. SELECT";
     }
 
     @Override

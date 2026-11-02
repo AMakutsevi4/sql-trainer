@@ -13,7 +13,7 @@ public class Select31Max extends SqlTask {
 
     @Override
     public String section() {
-        return "SELECT";
+        return "1. SELECT";
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Select18DistinctOnPrice extends SqlTask {
 
     @Override
     public String section() {
-        return "SELECT";
+        return "1. SELECT";
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Where01ById extends SqlTask {
 
     @Override
     public String section() {
-        return "WHERE";
+        return "2. WHERE";
     }
 
     @Override

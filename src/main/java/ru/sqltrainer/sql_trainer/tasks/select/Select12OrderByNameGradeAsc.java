@@ -13,7 +13,7 @@ public class Select12OrderByNameGradeAsc extends SqlTask {
 
     @Override
     public String section() {
-        return "SELECT";
+        return "1. SELECT";
     }
 
     @Override

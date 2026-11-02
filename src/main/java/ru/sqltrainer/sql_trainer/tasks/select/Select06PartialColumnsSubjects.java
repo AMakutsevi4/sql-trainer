@@ -13,7 +13,7 @@ public class Select06PartialColumnsSubjects extends SqlTask {
 
     @Override
     public String section() {
-        return "SELECT";
+        return "1. SELECT";
     }
 
     @Override
