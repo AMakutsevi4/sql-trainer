@@ -87,6 +87,6 @@ public class Select34MinGroupBy extends SqlTask {
 
     @Override
     public String solution() {
-        return "SELECT purpose, MIN(amount) AS min FROM transactions GROUP BY purpose";
+        return "SELECT purpose, MIN(amount) AS min FROM transactions GROUP BY purpose ORDER BY purpose";
     }
 }

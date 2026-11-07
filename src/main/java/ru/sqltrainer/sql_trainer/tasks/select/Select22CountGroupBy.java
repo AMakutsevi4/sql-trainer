@@ -83,6 +83,6 @@ public class Select22CountGroupBy extends SqlTask {
 
     @Override
     public String solution() {
-        return "SELECT category_id, COUNT(category_id) AS count FROM movies GROUP BY category_id";
+        return "SELECT category_id, COUNT(category_id) AS count FROM movies GROUP BY category_id ORDER BY category_id";
     }
 }

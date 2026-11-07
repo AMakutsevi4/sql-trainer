@@ -109,6 +109,6 @@ public class Join08LeftJoinCars extends SqlTask {
 
     @Override
     public String solution() {
-        return "SELECT c.id, c.model, e.number, e.volume, e.power FROM cars c LEFT JOIN engines e ON c.id = e.car_id ORDER BY volume DESC";
+        return "SELECT c.id, c.model, e.number, e.volume, e.power FROM cars c LEFT JOIN engines e ON c.id = e.car_id ORDER BY volume DESC NULLS LAST";
     }
 }

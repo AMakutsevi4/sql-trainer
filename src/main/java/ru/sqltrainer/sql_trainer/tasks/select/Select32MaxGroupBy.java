@@ -87,6 +87,6 @@ public class Select32MaxGroupBy extends SqlTask {
 
     @Override
     public String solution() {
-        return "SELECT purpose, MAX(amount) AS max FROM transactions GROUP BY purpose";
+        return "SELECT purpose, MAX(amount) AS max FROM transactions GROUP BY purpose ORDER BY purpose";
     }
 }

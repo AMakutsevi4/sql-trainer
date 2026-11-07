@@ -107,7 +107,7 @@ public class Join11RightJoinCars extends SqlTask {
                 1;Toyota Camry;1234;2.5;181;
                 2;Renault Sandero;5678;1.2;75;
                 null;null;1479;1.6;123;
-                null;null;5072;3;231;
+                null;null;5072;3.0;231;
                 """;
     }
 

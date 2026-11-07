@@ -78,6 +78,6 @@ public class Select13DistinctName extends SqlTask {
 
     @Override
     public String solution() {
-        return "SELECT DISTINCT name FROM accounts";
+        return "SELECT DISTINCT name FROM accounts ORDER BY name";
     }
 }

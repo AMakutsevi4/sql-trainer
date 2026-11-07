@@ -85,6 +85,6 @@ public class Where06AndConditions extends SqlTask {
 
     @Override
     public String solution() {
-        return "SELECT * FROM customers WHERE LENGTH(last_name) AND active = false";
+        return "SELECT * FROM customers WHERE LENGTH(first_name) >= 5 AND active = false";
     }
 }
