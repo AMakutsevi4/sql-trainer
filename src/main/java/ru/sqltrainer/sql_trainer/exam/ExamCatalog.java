@@ -40,17 +40,17 @@ public class ExamCatalog {
         String section = SECTION + " · CREATE / UPDATE / INSERT";
         List<ExamQuestion> questions = List.of(
                 q("exam1", section, 1, "CREATE TABLE — какое множество?",
-                        "К какому множеству операторов относится операция CREATE TABLE?\nВыберите 1 правильный вариант.",
+                        "К какому множеству операторов относится операция CREATE TABLE?",
                         false,
                         opts("DML", "DCL", "DDL", "TCL"),
                         Set.of("c")),
                 q("exam1", section, 2, "Операторы DML",
-                        "Какие операторы содержит группа операторов DML?\nВыберите несколько верных ответов.",
+                        "Какие операторы содержит группа операторов DML?",
                         true,
                         opts("CREATE TABLE", "INSERT", "ALTER TABLE", "UPDATE", "DELETE"),
                         Set.of("b", "d", "e")),
                 q("exam1", section, 3, "Автоинкремент идентификатора",
-                        "Какой тип данных указать для столбца-идентификатора, чтобы значения были числовыми и автоматически увеличивались на 1?\nВыберите 1 верный вариант.",
+                        "Какой тип данных указать для столбца-идентификатора, чтобы значения были числовыми и автоматически увеличивались на 1?",
                         false,
                         opts("PRIMARY KEY", "SERIAL", "INTEGER", "NUMERIC"),
                         Set.of("b")),
@@ -66,33 +66,32 @@ public class ExamCatalog {
                         Что будет в столбце name у строки с ID = 3 после запроса?
 
                         UPDATE t1 SET col2 = 'Пётр';
-
-                        Выберите 1 верный вариант.""",
+                        """,
                         false,
                         opts("Лев", "Геннадий", "Василий", "Пётр"),
                         Set.of("b")),
                 q("exam1", section, 5, "Какие операторы — DML?",
-                        "Какие из перечисленных операторов относятся к множеству DML?\nВыберите один или несколько верных ответов.",
+                        "Какие из перечисленных операторов относятся к множеству DML?",
                         true,
                         opts("SELECT", "INSERT", "UPDATE", "DELETE"),
                         Set.of("a", "b", "c", "d")),
                 q("exam1", section, 6, "Счёт и несколько карт",
-                        "К какому виду отношений относится утверждение: к банковскому счёту привязано более одной карты?\nВыберите верный ответ.",
+                        "К какому виду отношений относится утверждение: к банковскому счёту привязано более одной карты?",
                         false,
                         opts("many-to-one", "one-to-many", "many-to-many", "one-to-one"),
                         Set.of("b")),
                 q("exam1", section, 7, "Ограничения для one-to-one",
-                        "С помощью каких ограничений можно организовать связь one-to-one?\nВыберите несколько верных ответов.",
+                        "С помощью каких ограничений можно организовать связь one-to-one?",
                         true,
                         opts("PRIMARY KEY", "REFERENCES", "FOREIGN KEY", "CHECK", "UNIQUE"),
                         Set.of("b", "c", "e")),
                 q("exam1", section, 8, "Когда нужна связь-таблица",
-                        "Для каких отношений между двумя сущностями необходимо создавать вспомогательную сущность (всегда либо при определённых условиях)?\nВыберите верный ответ.",
+                        "Для каких отношений между двумя сущностями необходимо создавать вспомогательную сущность (всегда либо при определённых условиях)?",
                         false,
                         opts("many-to-many", "many-to-one", "one-to-many", "one-to-one"),
                         Set.of("a")),
                 q("exam1", section, 9, "PRIMARY KEY и UNIQUE",
-                        "В чём отличие ограничения PRIMARY KEY от UNIQUE?\nВыберите верный ответ.",
+                        "В чём отличие ограничения PRIMARY KEY от UNIQUE?",
                         false,
                         opts(
                                 "Отличий нет",
@@ -104,11 +103,11 @@ public class ExamCatalog {
         return new ExamDefinition(
                 "exam1",
                 "SQL. CREATE, UPDATE, INSERT",
-                "В этом экзамене вы можете проверить свои знания SQL по CREATE, UPDATE, INSERT.",
+                "CREATE, UPDATE, INSERT.",
                 List.of("Типы данных", "Связи между таблицами", "Ограничения", "DDL / DML"),
                 DEFAULT_TIME_LIMIT_MINUTES,
                 DEFAULT_RETAKE_COOLDOWN_HOURS,
-                "exam-attempt", // старый id попыток первого экзамена
+                "exam-attempt",
                 questions
         );
     }
@@ -117,12 +116,12 @@ public class ExamCatalog {
         String section = SECTION + " · Выборка данных";
         List<ExamQuestion> questions = List.of(
                 q("exam2", section, 1, "NULL = NULL",
-                        "Какой результат выдаст следующий запрос?\n\nSELECT NULL = NULL;\n\nВыберите верный ответ.",
+                        "Какой результат выдаст следующий запрос?\n\nSELECT NULL = NULL;\n",
                         false,
                         opts("NULL", "true", "false"),
                         Set.of("a")),
                 q("exam2", section, 2, "NULL != NULL",
-                        "Какой результат выдаст следующий запрос?\n\nSELECT NULL != NULL;\n\nВыберите верный ответ.",
+                        "Какой результат выдаст следующий запрос?\n\nSELECT NULL != NULL;\n",
                         false,
                         opts("NULL", "true", "false"),
                         Set.of("a")),
@@ -158,7 +157,7 @@ public class ExamCatalog {
                         ),
                         Set.of("b")),
                 q("exam2", section, 4, "Шаблоны LIKE",
-                        "Выберите символы, которые может содержать шаблон сравнения для оператора LIKE:\nВыберите верные ответы.",
+                        "Какие символы может содержать шаблон LIKE:",
                         true,
                         opts("%", "*", "_", "$"),
                         Set.of("a", "c")),
@@ -176,12 +175,12 @@ public class ExamCatalog {
                         monitor | 369
 
                         С помощью каких операторов можно убрать дубликаты в запросе?
-                        Выберите верные ответы.""",
+                        """,
                         true,
                         opts("LIMIT", "DISTINCT", "UNION ALL", "GROUP BY"),
                         Set.of("b", "d")),
                 q("exam2", section, 6, "COUNT(*) и COUNT(field)",
-                        "В чём отличие агрегатных функций COUNT(*) и COUNT(field_of_table)?\nВыберите верный ответ.",
+                        "В чём отличие агрегатных функций COUNT(*) и COUNT(field_of_table)?",
                         false,
                         opts(
                                 "Обе функции работают абсолютно одинаково",
@@ -190,7 +189,7 @@ public class ExamCatalog {
                         ),
                         Set.of("c")),
                 q("exam2", section, 7, "Псевдонимы таблиц",
-                        "В каких случаях необходимо использовать псевдонимы для таблиц?\nВыберите верные ответы.",
+                        "В каких случаях необходимо использовать псевдонимы для таблиц?",
                         true,
                         opts(
                                 "Для переименования таблиц",
@@ -198,7 +197,7 @@ public class ExamCatalog {
                         ),
                         Set.of("a", "b")),
                 q("exam2", section, 8, "Что писать в GROUP BY",
-                        "Какие столбцы необходимо записывать в предложении GROUP BY?\nВыберите верный ответ.",
+                        "Какие столбцы необходимо записывать в предложении GROUP BY?",
                         false,
                         opts(
                                 "Все",
@@ -207,7 +206,7 @@ public class ExamCatalog {
                         ),
                         Set.of("c")),
                 q("exam2", section, 9, "Максимум среднего",
-                        "Необходимо выбрать максимальное среднее значение. Какой запрос будет верным?\nВыберите верный ответ.",
+                        "Необходимо выбрать максимальное среднее значение. Какой запрос будет верным?",
                         false,
                         opts(
                                 "SELECT max(avg(price)) FROM product GROUP BY \"type\";",
@@ -217,7 +216,7 @@ public class ExamCatalog {
                         ),
                         Set.of("b")),
                 q("exam2", section, 10, "INNER JOIN — диаграмма",
-                        "Какая диаграмма Эйлера–Венна подходит для соединения INNER JOIN?\nВыберите верный ответ.",
+                        "Какая диаграмма Эйлера–Венна подходит для соединения INNER JOIN?",
                         false,
                         imageOpts(
                                 "/images/exam/join-left.png",
@@ -236,8 +235,7 @@ public class ExamCatalog {
 
                         Запрос 2:
                         SELECT t1.col1, t2.col2 FROM t1, t2 WHERE t1.id = t2.t1_id;
-
-                        Выберите верный вариант.""",
+                        """,
                         false,
                         opts("Да", "Нет"),
                         Set.of("b"))
@@ -245,7 +243,7 @@ public class ExamCatalog {
         return new ExamDefinition(
                 "exam2",
                 "SQL. Выборка данных",
-                "В этом экзамене вы можете проверить свои знания SQL по выборке данных.",
+                "Выборка данных.",
                 List.of("Выборка данных из БД", "Операторы группировки", "Операторы выборки"),
                 DEFAULT_TIME_LIMIT_MINUTES,
                 DEFAULT_RETAKE_COOLDOWN_HOURS,
@@ -264,7 +262,6 @@ public class ExamCatalog {
             List<ExamOption> options,
             Set<String> correct
     ) {
-        // exam1 сохраняет старые id exam-01.. для совместимости с уже записанными попытками
         String id = "exam1".equals(examId)
                 ? "exam-" + String.format("%02d", order)
                 : examId + "-" + String.format("%02d", order);

@@ -5,7 +5,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -33,9 +32,7 @@ public class AdminUsersView extends VerticalLayout {
         setPadding(true);
         setSpacing(true);
 
-        add(new H2("Ученики"), new Paragraph(
-                "Создай логин и временный пароль — при первом входе ученик обязан сменить пароль. "
-                        + "После сброса пароля схема повторяется. Саморегистрации нет."));
+        add(new H2("Ученики"));
 
         TextField login = new TextField("Логин");
         PasswordField password = new PasswordField("Пароль");

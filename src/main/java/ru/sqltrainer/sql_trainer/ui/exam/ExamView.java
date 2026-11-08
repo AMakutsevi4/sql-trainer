@@ -66,7 +66,6 @@ public class ExamView extends VerticalLayout {
     private final Span progressLabel = new Span();
     private final Span timerLabel = new Span();
     private final Paragraph prompt = new Paragraph();
-    private final Span hint = new Span();
     private final Div answersBox = new Div();
     private final Span status = new Span();
     private final Button prev = new Button("← Назад");
@@ -96,9 +95,6 @@ public class ExamView extends VerticalLayout {
         H1 brand = new H1("SQL Trainer");
         brand.addClassName("trainer-brand");
 
-        Paragraph tagline = new Paragraph("Раздел «Экзамен» — выбери экзамен и проверь теорию.");
-        tagline.addClassName("trainer-tagline");
-
         buildList();
         buildIntro();
         buildQuiz();
@@ -109,7 +105,7 @@ public class ExamView extends VerticalLayout {
 
         addDetachListener(e -> stopTimer());
 
-        add(brand, tagline, listBlock, introBlock, quizBlock, resultsBlock);
+        add(brand, listBlock, introBlock, quizBlock, resultsBlock);
         showList();
     }
 
@@ -152,10 +148,10 @@ public class ExamView extends VerticalLayout {
         if (locked) {
             cooldown.setText("Повтор с " + TIME_FMT.format(availableAt.get()));
             open.setEnabled(false);
-            open.setText("Пока недоступно");
+            open.setText("Недоступно");
         } else {
             int attempts = progress.attempts(exam.attemptTaskId());
-            cooldown.setText(attempts == 0 ? "Ещё не сдавался" : "Попыток: " + attempts);
+            cooldown.setText(attempts == 0 ? "" : "Попыток: " + attempts);
             open.setEnabled(true);
             open.addClickListener(e -> showIntro(exam));
         }
@@ -184,7 +180,6 @@ public class ExamView extends VerticalLayout {
         progressLabel.addClassName("trainer-progress");
         timerLabel.addClassName("exam-timer");
         prompt.addClassName("trainer-description");
-        hint.addClassName("trainer-meta");
         status.addClassName("trainer-status");
         status.addClassName("is-info");
         answersBox.addClassName("exam-answers");
@@ -193,7 +188,7 @@ public class ExamView extends VerticalLayout {
         Div nav = new Div(prev, next, finish, progressLabel, timerLabel);
         nav.addClassName("trainer-nav");
 
-        Div left = panel("Вопрос", prompt, hint);
+        Div left = panel("Вопрос", prompt);
         Div right = panel("Варианты ответа", answersBox, status);
         Div grid = new Div(left, right);
         grid.addClassName("trainer-grid");
@@ -239,12 +234,12 @@ public class ExamView extends VerticalLayout {
         }
         Optional<Instant> availableAt = nextAvailableAt(currentExam);
         if (availableAt.filter(when -> Instant.now().isBefore(when)).isPresent()) {
-            cooldownLabel.setText("Повторная попытка будет доступна с " + TIME_FMT.format(availableAt.get()) + ".");
+            cooldownLabel.setText("Доступно с " + TIME_FMT.format(availableAt.get()));
             startButton.setEnabled(false);
-            startButton.setText("Пока недоступно");
+            startButton.setText("Недоступно");
             return;
         }
-        cooldownLabel.setText("Можно начать сейчас.");
+        cooldownLabel.setText("");
         startButton.setEnabled(true);
         startButton.setText("Пройти");
     }
@@ -346,9 +341,6 @@ public class ExamView extends VerticalLayout {
         setStatus("", "is-info");
 
         prompt.setText(question.prompt());
-        hint.setText(question.multiSelect()
-                ? "Можно выбрать несколько вариантов."
-                : "Выбери один вариант.");
 
         boolean withImages = question.options().stream().anyMatch(ExamOption::hasImage);
         if (withImages) {
@@ -437,7 +429,7 @@ public class ExamView extends VerticalLayout {
                     .filter(q -> !answers.containsKey(q.id()) || answers.get(q.id()).isEmpty())
                     .toList();
             if (!unanswered.isEmpty()) {
-                setStatus("Ответь на все вопросы. Без ответа: "
+                setStatus("Нет ответа: "
                                 + unanswered.stream().map(q -> String.valueOf(q.order())).collect(Collectors.joining(", ")),
                         "is-bad");
                 index = questions().indexOf(unanswered.getFirst());

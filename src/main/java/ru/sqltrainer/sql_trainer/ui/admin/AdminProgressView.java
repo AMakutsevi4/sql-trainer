@@ -6,7 +6,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -61,8 +60,7 @@ public class AdminProgressView extends VerticalLayout implements HasUrlParameter
         setPadding(true);
         setSpacing(true);
 
-        add(new H2("Прогресс учеников"),
-                new Paragraph("Сводка по попыткам и решённым задачам. Выбери ученика, чтобы увидеть детали."));
+        add(new H2("Прогресс учеников"));
 
         setupStudentsGrid();
         add(studentsGrid);
@@ -180,7 +178,7 @@ public class AdminProgressView extends VerticalLayout implements HasUrlParameter
 
     private void clearDetail() {
         currentDetail = null;
-        detailHeader.setText("Выбери ученика в таблице выше");
+        detailHeader.setText("");
         sectionsSummary.setText("");
         sectionFilter.setItems(ALL_SECTIONS);
         sectionFilter.setValue(ALL_SECTIONS);

@@ -2,7 +2,6 @@ package ru.sqltrainer.sql_trainer.ui;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Main;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -28,7 +27,6 @@ public class LoginView extends Main implements BeforeEnterObserver {
 
         VerticalLayout box = new VerticalLayout(
                 new H1("SQL Trainer"),
-                new Paragraph("Вход только по логину от администратора."),
                 login
         );
         box.setAlignItems(FlexComponent.Alignment.CENTER);

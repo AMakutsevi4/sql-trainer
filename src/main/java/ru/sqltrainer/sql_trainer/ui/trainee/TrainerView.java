@@ -60,9 +60,6 @@ public class TrainerView extends VerticalLayout {
         H1 brand = new H1("SQL Trainer");
         brand.addClassName("trainer-brand");
 
-        Paragraph tagline = new Paragraph("Выбери задачу, напиши SQL и сразу проверь результат.");
-        tagline.addClassName("trainer-tagline");
-
         sectionBox.setItems(catalog.sections());
         sectionBox.setWidthFull();
         taskBox.setWidthFull();
@@ -118,7 +115,7 @@ public class TrainerView extends VerticalLayout {
         prev.addClickListener(e -> moveTask(-1));
         next.addClickListener(e -> moveTask(1));
 
-        add(brand, tagline, pickers, nav, grid);
+        add(brand, pickers, nav, grid);
 
         if (!catalog.sections().isEmpty()) {
             sectionBox.setValue(catalog.sections().getFirst());
@@ -239,7 +236,7 @@ public class TrainerView extends VerticalLayout {
     private void run(boolean check) {
         SqlTask task = taskBox.getValue();
         if (task == null) {
-            setStatus("Сначала выбери задачу.", "is-bad");
+            setStatus("Задача не выбрана", "is-bad");
             return;
         }
 
@@ -270,13 +267,13 @@ public class TrainerView extends VerticalLayout {
         }
 
         if (outcome.passed()) {
-            setStatus("Верно!", "is-ok");
+            setStatus("Верно", "is-ok");
             showTable("Результат", outcome.table());
-            notify("Верно!", NotificationVariant.LUMO_SUCCESS);
+            notify("Верно", NotificationVariant.LUMO_SUCCESS);
         } else {
-            setStatus("Пока неверно", "is-bad");
+            setStatus("Неверно", "is-bad");
             showCompare(outcome.table(), QueryTable.fromCsv(task.expected()));
-            notify("Пока неверно", NotificationVariant.LUMO_ERROR);
+            notify("Неверно", NotificationVariant.LUMO_ERROR);
         }
         refreshTaskMeta(task);
         refreshProgress();
@@ -299,7 +296,7 @@ public class TrainerView extends VerticalLayout {
     private void showCompare(QueryTable actual, QueryTable expected) {
         resultBox.removeAll();
 
-        Span yours = new Span("Твой результат");
+        Span yours = new Span("Результат");
         yours.addClassName("trainer-result-label");
 
         Span want = new Span("Ожидалось");

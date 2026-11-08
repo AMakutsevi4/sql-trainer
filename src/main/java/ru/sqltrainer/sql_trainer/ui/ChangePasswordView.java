@@ -5,7 +5,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Main;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -57,7 +56,6 @@ public class ChangePasswordView extends Main implements BeforeEnterObserver {
 
         VerticalLayout box = new VerticalLayout(
                 new H1("Смена пароля"),
-                new Paragraph("Нужно задать свой пароль перед началом работы."),
                 password,
                 confirm,
                 save
