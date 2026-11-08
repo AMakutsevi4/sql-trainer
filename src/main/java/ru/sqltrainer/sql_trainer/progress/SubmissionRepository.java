@@ -24,4 +24,19 @@ public interface SubmissionRepository extends JpaRepository<Submission, Long> {
     Set<String> findSolvedTaskIds(@Param("userId") Long userId, @Param("taskIds") Collection<String> taskIds);
 
     List<Submission> findByUserIdOrderByCreatedAtDesc(Long userId);
+
+    @Query("""
+            select s.user.id, count(s), max(s.createdAt)
+            from Submission s
+            group by s.user.id
+            """)
+    List<Object[]> attemptAggregatesByUser();
+
+    @Query("""
+            select s.user.id, count(distinct s.taskId)
+            from Submission s
+            where s.passed = true
+            group by s.user.id
+            """)
+    List<Object[]> solvedAggregatesByUser();
 }

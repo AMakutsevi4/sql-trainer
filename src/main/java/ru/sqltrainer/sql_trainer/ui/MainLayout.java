@@ -12,7 +12,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
 import jakarta.annotation.security.PermitAll;
 import ru.sqltrainer.sql_trainer.security.SecurityUtils;
+import ru.sqltrainer.sql_trainer.ui.admin.AdminProgressView;
 import ru.sqltrainer.sql_trainer.ui.admin.AdminUsersView;
+import ru.sqltrainer.sql_trainer.ui.exam.ExamView;
 import ru.sqltrainer.sql_trainer.ui.trainee.TrainerView;
 
 @PermitAll
@@ -43,8 +45,10 @@ public class MainLayout extends AppLayout {
         menu.setPadding(true);
         menu.setSpacing(false);
         menu.add(new RouterLink("Тренажёр", TrainerView.class));
+        menu.add(new RouterLink("Экзамен", ExamView.class));
         if (SecurityUtils.isAdmin()) {
             menu.add(new RouterLink("Ученики", AdminUsersView.class));
+            menu.add(new RouterLink("Прогресс", AdminProgressView.class));
         }
         addToDrawer(menu);
     }

@@ -32,6 +32,9 @@ public class AppUser {
     @Column(nullable = false)
     private boolean active = true;
 
+    @Column(name = "must_change_password", nullable = false)
+    private boolean mustChangePassword = true;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
 
@@ -42,6 +45,7 @@ public class AppUser {
         this.login = login;
         this.passwordHash = passwordHash;
         this.role = role;
+        this.mustChangePassword = role != Role.ADMIN;
     }
 
     public Long getId() {
@@ -70,6 +74,14 @@ public class AppUser {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isMustChangePassword() {
+        return mustChangePassword;
+    }
+
+    public void setMustChangePassword(boolean mustChangePassword) {
+        this.mustChangePassword = mustChangePassword;
     }
 
     public Instant getCreatedAt() {

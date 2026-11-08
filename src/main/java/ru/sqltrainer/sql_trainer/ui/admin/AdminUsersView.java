@@ -33,7 +33,9 @@ public class AdminUsersView extends VerticalLayout {
         setPadding(true);
         setSpacing(true);
 
-        add(new H2("Ученики"), new Paragraph("Создай логин/пароль и отдай ученику. Саморегистрации нет."));
+        add(new H2("Ученики"), new Paragraph(
+                "Создай логин и временный пароль — при первом входе ученик обязан сменить пароль. "
+                        + "После сброса пароля схема повторяется. Саморегистрации нет."));
 
         TextField login = new TextField("Логин");
         PasswordField password = new PasswordField("Пароль");
@@ -59,6 +61,9 @@ public class AdminUsersView extends VerticalLayout {
         grid.addColumn(AppUser::getLogin).setHeader("Логин").setAutoWidth(true);
         grid.addColumn(u -> u.getRole().name()).setHeader("Роль").setAutoWidth(true);
         grid.addColumn(u -> u.isActive() ? "да" : "нет").setHeader("Активен").setAutoWidth(true);
+        grid.addColumn(u -> u.isMustChangePassword() ? "да" : "нет")
+                .setHeader("Сменить пароль")
+                .setAutoWidth(true);
         grid.addComponentColumn(user ->
                 new Button("Сбросить пароль", e -> openResetDialog(user))
         ).setHeader("");

@@ -246,3 +246,135 @@ body {
 .trainer vaadin-button[theme~='primary']:hover {
     background: var(--accent-hover);
 }
+
+.exam-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.exam-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1rem 1.05rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--soft-box);
+}
+
+.exam-card-title {
+    margin: 0;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+}
+
+.exam-intro-title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    letter-spacing: -0.02em;
+}
+
+.exam-intro-text {
+    margin: 0 0 1rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    white-space: pre-wrap;
+    font-family: var(--sans);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.exam-timer {
+    margin-left: auto;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.exam-timer.is-bad {
+    color: var(--bad);
+}
+
+.exam-answers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0.25rem 0 0.5rem;
+}
+
+.exam-answers vaadin-checkbox-group,
+.exam-answers vaadin-radio-group {
+    width: 100%;
+}
+
+.exam-answers-images vaadin-radio-group,
+.exam-answers-images vaadin-checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.exam-option-with-image {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    max-width: 240px;
+}
+
+.exam-option-caption {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+}
+
+.exam-option-image {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+}
+
+.exam-results-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.35rem;
+}
+
+.exam-score {
+    margin: 0 0 1rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.exam-score.is-ok {
+    color: var(--ok);
+}
+
+.exam-score.is-bad {
+    color: var(--bad);
+}
+
+.exam-score.is-info {
+    color: var(--ink-soft);
+}
+
+.exam-result-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 1.1rem;
+}
+
+.exam-result-row {
+    font-size: 0.98rem;
+}
+
+.exam-result-row.is-ok {
+    color: var(--ok);
+}
+
+.exam-result-row.is-bad {
+    color: var(--bad);
+}

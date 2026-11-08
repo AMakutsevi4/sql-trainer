@@ -6,6 +6,7 @@ import ru.sqltrainer.sql_trainer.security.SecurityUtils;
 import ru.sqltrainer.sql_trainer.user.AppUser;
 import ru.sqltrainer.sql_trainer.user.AppUserRepository;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -40,6 +41,14 @@ public class ProgressService {
         return currentUser().flatMap(user ->
                 submissions.findFirstByUserIdAndTaskIdOrderByCreatedAtDesc(user.getId(), taskId)
                         .map(Submission::getSqlText)
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Instant> lastAttemptAt(String taskId) {
+        return currentUser().flatMap(user ->
+                submissions.findFirstByUserIdAndTaskIdOrderByCreatedAtDesc(user.getId(), taskId)
+                        .map(Submission::getCreatedAt)
         );
     }
 
