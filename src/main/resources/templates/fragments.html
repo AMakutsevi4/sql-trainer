@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header th:fragment="header" class="app-header">
+    <div class="app-header-inner">
+        <a class="app-brand-link" th:href="@{/}">SQL Trainer</a>
+        <nav class="app-nav">
+            <a th:href="@{/}" th:classappend="${currentPath == '/' ? ' is-active' : ''}">Тренажёр</a>
+            <a th:href="@{/exam}" th:classappend="${#strings.startsWith(currentPath, '/exam') ? ' is-active' : ''}">Экзамен</a>
+            <a th:if="${isAdmin}" th:href="@{/admin/users}"
+               th:classappend="${#strings.startsWith(currentPath, '/admin/users') ? ' is-active' : ''}">Ученики</a>
+            <a th:if="${isAdmin}" th:href="@{/admin/progress}"
+               th:classappend="${#strings.startsWith(currentPath, '/admin/progress') ? ' is-active' : ''}">Прогресс</a>
+        </nav>
+        <div class="app-user">
+            <span th:text="${currentLogin}"></span>
+            <form th:action="@{/logout}" method="post" class="inline-form">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-ghost">Выйти</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div th:fragment="table(table)" class="result-table-wrap">
+    <table class="result-table" th:if="${table != null and !table.columns().isEmpty()}">
+        <thead>
+        <tr>
+            <th th:each="col : ${table.columns()}" th:text="${col}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${table.rows()}">
+            <td th:each="cell : ${row}" th:text="${cell}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <pre class="trainer-result" th:if="${table == null or table.columns().isEmpty()}">(пусто)</pre>
+</div>
+
+</body>
+</html>

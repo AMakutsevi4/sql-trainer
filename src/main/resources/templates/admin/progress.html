@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Прогресс — SQL Trainer</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main class="trainer admin-page">
+    <h2>Прогресс учеников</h2>
+
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>Логин</th>
+            <th>Решено</th>
+            <th>Попытки</th>
+            <th>Последняя активность</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${students}" th:classappend="${selectedUserId == s.userId() ? ' is-selected' : ''}">
+            <td>
+                <a th:href="@{/admin/progress(userId=${s.userId()})}" th:text="${s.login()}"></a>
+            </td>
+            <td th:text="|${s.solved()} / ${totalTasks}|"></td>
+            <td th:text="${s.attempts()}"></td>
+            <td th:text="${T(ru.sqltrainer.sql_trainer.web.AdminProgressController).formatTime(s.lastActivity())}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${detail != null}" class="admin-detail">
+        <p class="trainer-meta"
+           th:text="|${detail.login()} — решено ${detail.solved()} / ${totalTasks}, попыток ${detail.attempts()}|"></p>
+        <p class="trainer-meta" th:text="${sectionsText}"></p>
+
+        <form method="get" th:action="@{/admin/progress}" class="admin-form">
+            <input type="hidden" name="userId" th:value="${selectedUserId}"/>
+            <label>Раздел
+                <select name="section" onchange="this.form.submit()">
+                    <option value="ALL" th:selected="${sectionFilter == 'ALL'}">Все разделы</option>
+                    <option th:each="sec : ${sections}" th:value="${sec}" th:text="${sec}"
+                            th:selected="${sectionFilter == sec}"></option>
+                </select>
+            </label>
+        </form>
+
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Раздел</th>
+                <th>№</th>
+                <th>Задача</th>
+                <th>Статус</th>
+                <th>Попытки</th>
+                <th>Последняя попытка</th>
+                <th>Ответ</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${tasks}">
+                <td th:text="${t.section()}"></td>
+                <td th:text="${t.order()}"></td>
+                <td th:text="${t.title()}"></td>
+                <td>
+                    <span th:if="${t.solved()}">решено</span>
+                    <span th:if="${!t.solved() and t.attempts() > 0}">в работе</span>
+                    <span th:if="${!t.solved() and t.attempts() == 0}">—</span>
+                </td>
+                <td th:text="${t.attempts()}"></td>
+                <td th:text="${T(ru.sqltrainer.sql_trainer.web.AdminProgressController).formatTime(t.lastAttempt())}"></td>
+                <td>
+                    <details th:if="${t.lastSql() != null and !t.lastSql().isBlank()}">
+                        <summary>Ответ</summary>
+                        <pre class="trainer-result" th:text="${t.lastSql()}"></pre>
+                    </details>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

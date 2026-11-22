@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Экзамен — SQL Trainer</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main class="trainer">
+    <h1 class="trainer-brand">SQL Trainer</h1>
+    <section class="trainer-panel">
+        <div class="trainer-panel-title">Доступные экзамены</div>
+        <div class="exam-cards">
+            <div class="exam-card" th:each="exam : ${exams}">
+                <h2 class="exam-card-title" th:text="${exam.title()}"></h2>
+                <p class="trainer-meta"
+                   th:text="|${exam.questions()} вопросов · ${exam.timeLimitMinutes()} мин · повтор через ${exam.retakeCooldownHours()} ч|"></p>
+                <p class="trainer-meta" th:if="${exam.locked()}"
+                   th:text="|Повтор с ${exam.availableAt()}|"></p>
+                <p class="trainer-meta" th:if="${!exam.locked() and exam.attempts() > 0}"
+                   th:text="|Попыток: ${exam.attempts()}|"></p>
+                <a th:if="${!exam.locked()}" class="btn btn-primary" th:href="@{/exam/{id}(id=${exam.id()})}">Открыть</a>
+                <button th:if="${exam.locked()}" class="btn" disabled>Недоступно</button>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

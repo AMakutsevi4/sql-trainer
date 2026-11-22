@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="|${exam.title()} — SQL Trainer|">Экзамен</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main class="trainer">
+    <section class="trainer-panel exam-intro">
+        <div class="trainer-panel-title">Экзамен</div>
+        <h2 class="exam-intro-title" th:text="${exam.title()}"></h2>
+        <pre class="exam-intro-text" th:text="${exam.introText()}"></pre>
+        <p class="trainer-meta" th:if="${locked}" th:text="|Доступно с ${availableAt}|"></p>
+        <div class="trainer-actions">
+            <a class="btn" th:href="@{/exam}">← Ко всем экзаменам</a>
+            <form th:if="${!locked}" th:action="@{/exam/{id}/start(id=${exam.id()})}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-primary">Пройти</button>
+            </form>
+            <button th:if="${locked}" class="btn" disabled>Недоступно</button>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>SQL Trainer</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main class="trainer">
+    <form method="get" th:action="@{/}" class="trainer-pickers" id="picker-form">
+        <label>Раздел
+            <select name="section" id="section-select">
+                <option th:each="s : ${sections}" th:value="${s}" th:text="${s}"
+                        th:selected="${s == section}"></option>
+            </select>
+        </label>
+        <label>Задача
+            <select name="taskId" id="task-select">
+                <option th:each="t : ${tasks}"
+                        th:value="${t.id()}"
+                        th:text="|${solvedIds != null and solvedIds.contains(t.id()) ? '✓ ' : ''}${t.title()}|"
+                        th:selected="${task != null and task.id() == t.id()}"></option>
+            </select>
+        </label>
+    </form>
+
+    <div class="trainer-nav" th:if="${task != null}">
+        <a class="btn" th:if="${hasPrev}"
+           th:href="@{/(section=${section},taskId=${prevTaskId})}">← Назад</a>
+        <button type="button" class="btn" th:if="${!hasPrev}" disabled>← Назад</button>
+        <a class="btn" th:if="${hasNext}"
+           th:href="@{/(section=${section},taskId=${nextTaskId})}">Вперед →</a>
+        <button type="button" class="btn" th:if="${!hasNext}" disabled>Вперед →</button>
+        <span class="trainer-progress" id="section-progress"
+              th:text="|Прогресс раздела: ${solvedCount} / ${taskCount}|"></span>
+    </div>
+
+    <div class="trainer-grid" th:if="${task != null}">
+        <section class="trainer-panel">
+            <div class="trainer-panel-title">Условие и схема</div>
+            <p class="trainer-description" th:text="${task.description()}"></p>
+            <pre class="trainer-code" th:text="${schemaText}"></pre>
+        </section>
+
+        <section class="trainer-panel">
+            <div class="trainer-panel-title">Редактор и результат</div>
+            <div class="trainer-meta" id="task-meta"
+                 th:text="|Статус: ${solved ? 'решено' : 'не решено'} · Попытки: ${attempts}|"></div>
+
+            <textarea class="sql-editor-input" id="sql-input" th:text="${sql}"></textarea>
+            <div class="trainer-actions">
+                <button type="button" class="btn" id="btn-run">Выполнить</button>
+                <button type="button" class="btn btn-primary" id="btn-check">Проверить</button>
+                <button type="button" class="btn" id="btn-reset">Сбросить</button>
+            </div>
+
+            <div class="trainer-status is-info" id="status"></div>
+            <div id="result-box"></div>
+        </section>
+    </div>
+</main>
+
+<script th:inline="javascript">
+(() => {
+  const csrfToken = /*[[${_csrf.token}]]*/ '';
+  const csrfHeader = /*[[${_csrf.headerName}]]*/ 'X-CSRF-TOKEN';
+  const starter = /*[[${starter}]]*/ '';
+  const taskId = /*[[${task != null ? task.id() : null}]]*/ null;
+
+  const sectionSelect = document.getElementById('section-select');
+  const taskSelect = document.getElementById('task-select');
+  const form = document.getElementById('picker-form');
+  const sqlInput = document.getElementById('sql-input');
+  const statusEl = document.getElementById('status');
+  const resultBox = document.getElementById('result-box');
+  const metaEl = document.getElementById('task-meta');
+
+  if (sectionSelect) {
+    sectionSelect.addEventListener('change', () => {
+      const url = new URL(form.action, window.location.origin);
+      url.searchParams.set('section', sectionSelect.value);
+      window.location.href = url.toString();
+    });
+  }
+  if (taskSelect) {
+    taskSelect.addEventListener('change', () => form.submit());
+  }
+
+  function setStatus(text, tone) {
+    if (!statusEl) return;
+    statusEl.textContent = text || '';
+    statusEl.className = 'trainer-status ' + (tone || 'is-info');
+  }
+
+  function renderTable(title, table) {
+    if (!table) return '';
+    const cols = table.columns || [];
+    const rows = table.rows || [];
+    if (!cols.length) {
+      return `<span class="trainer-result-label">${title}</span><pre class="trainer-result">(пусто)</pre>`;
+    }
+    let html = `<span class="trainer-result-label">${title}</span><div class="result-table-wrap"><table class="result-table"><thead><tr>`;
+    cols.forEach(c => { html += `<th>${escapeHtml(c)}</th>`; });
+    html += '</tr></thead><tbody>';
+    rows.forEach(row => {
+      html += '<tr>';
+      row.forEach(cell => { html += `<td>${escapeHtml(cell)}</td>`; });
+      html += '</tr>';
+    });
+    html += '</tbody></table></div>';
+    return html;
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;');
+  }
+
+  async function callApi(path) {
+    if (!taskId || !sqlInput) return;
+    setStatus('…', 'is-info');
+    resultBox.innerHTML = '';
+    const response = await fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        [csrfHeader]: csrfToken
+      },
+      body: JSON.stringify({ taskId, sql: sqlInput.value })
+    });
+    const data = await response.json();
+    setStatus(data.status || '', data.tone || 'is-info');
+    if (metaEl && data.attempts !== undefined) {
+      metaEl.textContent = 'Статус: ' + (data.solved ? 'решено' : 'не решено') + ' · Попытки: ' + data.attempts;
+    }
+    if (taskSelect && data.solved) {
+      const opt = taskSelect.selectedOptions[0];
+      if (opt && !opt.textContent.startsWith('✓ ')) {
+        opt.textContent = '✓ ' + opt.textContent;
+      }
+    }
+    let html = '';
+    if (data.error) {
+      html += `<pre class="trainer-result">${escapeHtml(data.error)}</pre>`;
+    }
+    if (data.result) {
+      html += renderTable('Результат', data.result);
+    }
+    if (data.expected) {
+      html += renderTable('Ожидалось', data.expected);
+    }
+    resultBox.innerHTML = html;
+  }
+
+  const runBtn = document.getElementById('btn-run');
+  const checkBtn = document.getElementById('btn-check');
+  const resetBtn = document.getElementById('btn-reset');
+  if (runBtn) runBtn.addEventListener('click', () => callApi('/api/trainer/run'));
+  if (checkBtn) checkBtn.addEventListener('click', () => callApi('/api/trainer/check'));
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    sqlInput.value = starter || '';
+    setStatus('', 'is-info');
+    resultBox.innerHTML = '';
+  });
+})();
+</script>
+</body>
+</html>

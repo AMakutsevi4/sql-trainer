@@ -1,10 +1,8 @@
 package ru.sqltrainer.sql_trainer.security;
 
-import com.vaadin.flow.server.VaadinServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 public final class SecurityUtils {
 
@@ -27,10 +25,5 @@ public final class SecurityUtils {
         return auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch("ROLE_ADMIN"::equals);
-    }
-
-    public static void logout() {
-        var request = VaadinServletRequest.getCurrent().getHttpServletRequest();
-        new SecurityContextLogoutHandler().logout(request, null, null);
     }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Результат — SQL Trainer</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main class="trainer">
+    <section class="trainer-panel">
+        <div class="trainer-panel-title">Итоги</div>
+        <h2 class="exam-results-title" th:text="|Результат: ${result.examTitle()}|"></h2>
+        <p class="exam-score"
+           th:classappend="${result.percent() == 100 ? ' is-ok' : (result.percent() >= 60 ? ' is-info' : ' is-bad')}"
+           th:text="|${timedOut ? 'Время вышло. ' : ''}Верно: ${result.correct()} из ${result.total()} · Итог: ${result.percent()}%|"></p>
+        <div class="exam-result-list">
+            <div class="exam-result-row"
+                 th:each="q : ${result.questions()}"
+                 th:classappend="${q.correct() ? ' is-ok' : ' is-bad'}"
+                 th:text="|${q.correct() ? '✓ ' : '✗ '}${q.order()}. ${q.title()}${q.correct() ? ' — верно' : ' — неверно'}|"></div>
+        </div>
+        <div class="trainer-actions">
+            <form th:action="@{/exam/{id}/clear(id=${examId})}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-primary">К описанию экзамена</button>
+            </form>
+            <a class="btn" th:href="@{/exam}">Ко всем экзаменам</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

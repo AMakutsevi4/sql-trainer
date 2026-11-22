@@ -238,13 +238,237 @@ body {
     }
 }
 
-.trainer vaadin-button[theme~='primary'] {
+.app-header {
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.app-header-inner {
+    width: min(1120px, calc(100% - 2rem));
+    margin: 0 auto;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-brand-link {
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    margin-right: 0.5rem;
+}
+
+.app-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    flex: 1;
+}
+
+.app-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.app-nav a:hover,
+.app-nav a.is-active {
+    color: var(--accent);
+}
+
+.app-nav a.is-active {
+    font-weight: 600;
+}
+
+.app-user {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+}
+
+.inline-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+}
+
+.btn,
+button.btn,
+a.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 0.45rem 0.85rem;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn:hover,
+button.btn:hover,
+a.btn:hover {
+    border-color: var(--accent);
+}
+
+.btn-primary,
+button.btn-primary,
+a.btn-primary {
     background: var(--accent);
+    border-color: var(--accent);
     color: #fff;
 }
 
-.trainer vaadin-button[theme~='primary']:hover {
+.btn-primary:hover,
+button.btn-primary:hover,
+a.btn-primary:hover {
     background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.btn-ghost,
+button.btn-ghost {
+    background: transparent;
+}
+
+.btn-disabled,
+.btn:disabled,
+button.btn:disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.trainer-pickers label,
+.login-form label,
+.admin-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+}
+
+.trainer-pickers select,
+.login-form input,
+.admin-form input,
+.admin-form select,
+.inline-form input[type="password"] {
+    font: inherit;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.55rem 0.7rem;
+    background: var(--soft-box);
+}
+
+.login-view {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.login-box {
+    width: min(360px, 100%);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.5rem;
+}
+
+.login-box h1 {
+    margin: 0 0 1rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.admin-page h2 {
+    margin: 0 0 1rem;
+}
+
+.admin-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: end;
+    margin-bottom: 1.25rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+    font-size: 0.92rem;
+}
+
+.admin-table tr.is-selected {
+    background: rgba(15, 118, 110, 0.08);
+}
+
+.result-table-wrap {
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+}
+
+.result-table th,
+.result-table td {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+}
+
+.exam-option {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    margin-bottom: 0.45rem;
+}
+
+.exam-answers-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.exam-answers-images .exam-option {
+    flex-direction: column;
 }
 
 .exam-cards {
@@ -304,22 +528,7 @@ body {
     margin: 0.25rem 0 0.5rem;
 }
 
-.exam-answers vaadin-checkbox-group,
-.exam-answers vaadin-radio-group {
-    width: 100%;
-}
-
-.exam-answers-images vaadin-radio-group,
-.exam-answers-images vaadin-checkbox-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.75rem;
-}
-
 .exam-option-with-image {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
     max-width: 240px;
 }
 

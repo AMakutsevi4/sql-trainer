@@ -15,15 +15,11 @@ spring:
           time_zone: UTC
   flyway:
     enabled: true
+  thymeleaf:
+    cache: false
 
 server:
   port: 8181
-
-vaadin:
-  launch-browser: true
-  devmode:
-    devTools:
-      enabled: false
 
 app:
   admin:

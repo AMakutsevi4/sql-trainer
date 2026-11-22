@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Ученики — SQL Trainer</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<main class="trainer admin-page">
+    <h2>Ученики</h2>
+    <p th:if="${message}" class="trainer-status is-ok" th:text="${message}"></p>
+    <p th:if="${error}" class="trainer-status is-bad" th:text="${error}"></p>
+
+    <form class="admin-form" th:action="@{/admin/users/create}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <label>Логин <input type="text" name="login" required/></label>
+        <label>Пароль <input type="password" name="password" required minlength="6"/></label>
+        <button type="submit" class="btn btn-primary">Создать ученика</button>
+    </form>
+
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>Логин</th>
+            <th>Роль</th>
+            <th>Активен</th>
+            <th>Сменить пароль</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.login}"></td>
+            <td th:text="${u.role.name()}"></td>
+            <td th:text="${u.active} ? 'да' : 'нет'"></td>
+            <td th:text="${u.mustChangePassword} ? 'да' : 'нет'"></td>
+            <td>
+                <form th:action="@{/admin/users/reset}" method="post" class="inline-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <input type="hidden" name="userId" th:value="${u.id}"/>
+                    <input type="password" name="password" placeholder="Новый пароль" required minlength="6"/>
+                    <button type="submit" class="btn">Сбросить пароль</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
